@@ -19,7 +19,9 @@ class ClientManager
 
     public function find(int $id): ?Client
     {
-        return $this->entityManager->find($id, null, null);
+        if (!$id) return null;
+        
+        return $this->clientRepository->find($id);
     }
 
     public function persist(Client $client): Client

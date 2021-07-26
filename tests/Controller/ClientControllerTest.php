@@ -6,6 +6,15 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ClientControllerTest extends WebTestCase
 {
+    public function testNew()
+    {
+        $client = static::createClient();
+
+        $client->request('GET', 'client/new/');
+
+        $this->assertEquals(301, $client->getResponse()->getStatusCode());
+    }
+
     public function testIndex()
     {
         $client = static::createClient();
@@ -19,18 +28,9 @@ class ClientControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', 'client/show');
+        $client->request('GET', 'client/1');
 
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
-    }
-
-    public function newTest()
-    {
-        $client = static::createClient();
-
-        $client->request('GET, POST', 'client/new');
-
-        $this->assertEquals(405, $client->getResponse()->getStatusCode());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
     public function testEdit()
