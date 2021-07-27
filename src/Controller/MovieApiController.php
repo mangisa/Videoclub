@@ -8,12 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/v1/movies")
+ * @Route("/api/movies")
  */
 class MovieApiController extends AbstractController
 {
     /**
-     * @Route("/", name="movies_api")
+     * @Route("/", name="movies_api", methods={"GET"})
      */
     public function index(): Response
     {
