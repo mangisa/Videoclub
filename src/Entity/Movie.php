@@ -37,6 +37,16 @@ class Movie
      */
     private $cover;
 
+    /**
+     * @ORM\Column(name="release_date", type="datetime", nullable=true)
+     */
+    private $releaseDate;
+
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=2)
+     */
+    private $price;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +96,30 @@ class Movie
     public function setCover(?string $cover): self
     {
         $this->cover = $cover;
+
+        return $this;
+    }
+
+    public function getReleaseDate(): ?\DateTimeInterface
+    {
+        return $this->releaseDate;
+    }
+
+    public function setReleaseDate(?\DateTimeInterface $releaseDate): self
+    {
+        $this->releaseDate = $releaseDate;
+
+        return $this;
+    }
+
+    public function getPrice(): ?string
+    {
+        return $this->price;
+    }
+
+    public function setPrice(string $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }
