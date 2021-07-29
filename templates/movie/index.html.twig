@@ -12,7 +12,7 @@
                 <th>Title</th>
                 <th>Duration</th>
                 <th>Director</th>
-                <th>Cover</th>
+                <th>releaseDate</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -21,9 +21,9 @@
             <tr>
                 <td>{{ movie.id }}</td>
                 <td>{{ movie.title }}</td>
-                <td>{{ movie.duration ? movie.duration|date('H:i:s') : '' }}</td>
+                <td>{{ movie.duration }}</td>
                 <td>{{ movie.director }}</td>
-                <td>{{ movie.cover }}</td>
+                <td>{{ movie.releaseDate? movie.releaseDate|date('d/m/Y') : '' }}</td>
                 <td>
                     <a href="{{ path('movie_show', {'id': movie.id}) }}">show</a>
                     <a href="{{ path('movie_edit', {'id': movie.id}) }}">edit</a>

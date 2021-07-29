@@ -17,15 +17,15 @@
             </tr>
             <tr>
                 <th>Duration</th>
-                <td>{{ movie.duration ? movie.duration|date('H:i:s') : '' }}</td>
+                <td>{{ movie.duration }}</td>
             </tr>
             <tr>
                 <th>Director</th>
                 <td>{{ movie.director }}</td>
             </tr>
             <tr>
-                <th>Cover</th>
-                <td>{{ movie.cover }}</td>
+                <th>Release Date</th>
+                <td>{{ movie.releaseDate? movie.releaseDate|date('d/m/Y') : '' }}</td>
             </tr>
         </tbody>
     </table>
