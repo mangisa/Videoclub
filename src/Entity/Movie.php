@@ -23,11 +23,6 @@ class Movie
     private $title;
 
     /**
-     * @ORM\Column(name="duration", type="time", nullable=true)
-     */
-    private $duration;
-
-    /**
      * @ORM\Column(name="director", type="string", length=100, nullable=true)
      */
     private $director;
@@ -47,6 +42,11 @@ class Movie
      */
     private $price;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $duration;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,18 +60,6 @@ class Movie
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getDuration(): ?\DateTimeInterface
-    {
-        return $this->duration;
-    }
-
-    public function setDuration(?\DateTimeInterface $duration): self
-    {
-        $this->duration = $duration;
 
         return $this;
     }
@@ -120,6 +108,18 @@ class Movie
     public function setPrice(string $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getDuration(): ?int
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(?int $duration): self
+    {
+        $this->duration = $duration;
 
         return $this;
     }

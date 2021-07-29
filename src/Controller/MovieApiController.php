@@ -4,7 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Movie;
 use App\Form\MovieType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\MovieRepository;
+use App\Service\MovieManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -18,20 +19,23 @@ class MovieApiController extends AbstractApiController
     /**
      * @Route("/", name="movies_api", methods={"GET"})
      */
-    public function index(): Response
+    public function index(MovieRepository $movieRepository): Response
     {
-        $movies = $this->getDoctrine()->getRepository(Movie::class)->findAll();
+        $movies = $movieRepository->findAll();
 
         return $this->json($movies);
     }
 
-
     /**
      * @Route("/by_get/{id}", name="movies_api_show_get", methods={"GET"})
      */
-    public function showByGet($id): Response
+    public function showByGet($id, MovieManager $movieManager): Response
     {
-        $movie = $this->getDoctrine()->getRepository(Movie::class)->findOneBy(['id' => $id], ['id' => 'ASC']);
+        $movie = $movieManager->find($id);
+
+        if (!$movie) {
+            throw new NotFoundHttpException('Movie not exist in ddbb');
+        }
 
         return $this->respond($movie);
     }
@@ -39,11 +43,11 @@ class MovieApiController extends AbstractApiController
     /**
      * @Route("/by_post/{id}", name="movies_api_show_post", methods={"POST"})
      */
-    public function showByPost(Request $request): Response
+    public function showByPost(Request $request, MovieManager $movieManager): Response
     {
         $movieId = $request->get('id');
 
-        $movie = $this->getDoctrine()->getRepository(Movie::class)->findOneBy(['id' => $movieId], ['id' => 'ASC']);
+        $movie = $movieManager->find($movieId);
 
         if (!$movie) {
             throw new NotFoundHttpException('Movie not exist in ddbb');
@@ -55,7 +59,7 @@ class MovieApiController extends AbstractApiController
     /**
      * @Route("/create", name="movies_api_create", methods={"POST"})
      */
-    public function create(Request $request): Response
+    public function create(Request $request, MovieManager $movieManager): Response
     {
         $form = $this->buidForm(MovieType::class);
 
@@ -67,22 +71,19 @@ class MovieApiController extends AbstractApiController
 
         /** @var Movie $movie */
         $movie = $form->getData();
+        $movie = $movieManager->save($movie);
 
-        $this->getDoctrine()->getManager()->persist($movie);
-        $this->getDoctrine()->getManager()->flush();
-
-        //return $this->json($movie);
         return $this->respond($movie);
     }
 
     /**
      * @Route("/update/{id}", name="movies_api_update", methods={"PATCH"})
      */
-    public function update(Request $request): Response
+    public function update(Request $request, MovieManager $movieManager): Response
     {
         $movieId = $request->get('id');
 
-        $movie = $this->getDoctrine()->getRepository(Movie::class)->findOneBy(['id' => $movieId], ['id' => 'ASC']);
+        $movie = $movieManager->find($movieId);
 
         if (!$movie) {
             throw new NotFoundHttpException('Movie not exist in ddbb');
@@ -100,29 +101,25 @@ class MovieApiController extends AbstractApiController
 
         /** @var Movie $movie */
         $movie = $form->getData();
+        $movie = $movieManager->save($movie);
 
-        $this->getDoctrine()->getManager()->persist($movie);
-        $this->getDoctrine()->getManager()->flush();
-
-        //return $this->json($movie);
         return $this->respond($movie);
     }
 
     /**
      * @Route("/delete_by_post/{id}", name="movies_api_delete_post", methods={"DELETE"})
      */
-    public function delete(Request $request): Response
+    public function delete(Request $request, MovieManager $movieManager): Response
     {
         $movieId = $request->get('id');
 
-        $movie = $this->getDoctrine()->getRepository(Movie::class)->findOneBy(['id' => $movieId], ['id' => 'ASC']);
+        $movie = $movieManager->find($movieId);
 
         if (!$movie) {
             throw new NotFoundHttpException('Movie not found');
         }
 
-        $this->getDoctrine()->getManager()->remove($movie);
-        $this->getDoctrine()->getManager()->flush();
+        $movieManager->remove($movie);
 
         return $this->respond(null);
     }

@@ -5,9 +5,9 @@ namespace App\Form;
 use App\Entity\Movie;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TimeType ;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\GreaterThan;
@@ -29,9 +29,6 @@ class MovieType extends AbstractType
                     ]),
                 ],
             ])
-            // ->add('duration', TimeType::class, [
-            //     'help' => 'Make sure to add a valid duration',
-            // ])
             ->add('director', TextType::class, [
                 'help' => 'Make sure to add a valid director',
             ])
@@ -50,6 +47,9 @@ class MovieType extends AbstractType
             ])
             ->add('releaseDate', DateTimeType::class, [
                 'widget' => 'single_text',
+            ])
+            ->add('duration', IntegerType::class, [
+                'help' => 'Make sure to add a valid duration',
             ])
         ;
     }
