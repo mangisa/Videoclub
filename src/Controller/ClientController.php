@@ -36,7 +36,8 @@ class ClientController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $client = $clientManager->save($client);
+                 
+            $client = $clientManager->save($client); 
 
             return $this->redirectToRoute('client_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -78,7 +79,7 @@ class ClientController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="client_delete", methods={"POST"})
+     * @Route("/{id}/delete", name="client_delete", methods={"POST"})
      */
     public function delete(ClientManager $clientManager, Request $request, Client $client): Response
     {
