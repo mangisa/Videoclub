@@ -16,11 +16,15 @@ class ClientType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label'  => 'Name:',
+                'label' => 'Name:',
+                'required' => true,
+                'empty_data' => '',
                 'help' => 'Make sure to add a valid name',
             ])
             ->add('surname', TextType::class, [
-                'label'  => 'Surname:',
+                'label' => 'Surname:',
+                'required' => true,
+                'empty_data' => '',
                 'help' => 'Make sure to add a valid surname',
             ])
             // ->add('birthdate', DateType::class, [

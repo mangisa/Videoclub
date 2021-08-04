@@ -5,7 +5,6 @@ namespace App\Service;
 use App\Entity\Client;
 use App\Repository\ClientRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use PHPUnit\Framework\Constraint\Exception;
 
 class ClientManager
 {
@@ -25,6 +24,11 @@ class ClientManager
         return $this->clientRepository->find($id);
     }
 
+    public function findAll(): array
+    {
+        return $this->clientRepository->findAll();
+    }
+
     public function persist(Client $client): Client
     {
         $this->entityManager->persist($client);
@@ -39,8 +43,6 @@ class ClientManager
 
     public function save(Client $client): Client
     {
-        //dump($client); die;
-
         $this->entityManager->persist($client); 
         $this->entityManager->flush();
         return $client;

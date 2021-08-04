@@ -5,6 +5,12 @@
 {% block body %}
     <h1>Client index</h1>
 
+    {% for flash_message in app.session.flashbag.get('notice') %}
+        <div class="flash-notice">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+
     <table class="table">
         <thead>
             <tr>

@@ -2,9 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Client;
 use App\Form\ClientType;
-use App\Repository\ClientRepository;
 use App\Service\ClientManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,10 +17,10 @@ class ClientController extends AbstractController
     /**
      * @Route("/", name="client_index", methods={"GET"})
      */
-    public function index(ClientRepository $clientRepository): Response
+    public function index(ClientManager $clientManager): Response
     {
         return $this->render('client/index.html.twig', [
-            'clients' => $clientRepository->findAll(),
+            'clients' => $clientManager->findAll(),
         ]);
     }
 
@@ -36,11 +34,11 @@ class ClientController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-                 
+
             $client = $clientManager->save($client); 
 
             return $this->redirectToRoute('client_index', [], Response::HTTP_SEE_OTHER);
-        }
+        } 
 
         return $this->renderForm('client/new.html.twig', [
             'client' => $client,
@@ -49,20 +47,32 @@ class ClientController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="client_show", methods={"GET"})
+     * @Route("/{id}", name="client_show", methods={"GET"}, requirements={"id":"\d+"})
      */
-    public function show(Client $client): Response
+    public function show(ClientManager $clientManager, int $id): Response
     {
+        $client = $clientManager->find($id);
+
+        if (!$client) {
+            return $this->redirectToRoute('client_index', [], Response::HTTP_SEE_OTHER);
+        }
+
         return $this->render('client/show.html.twig', [
             'client' => $client,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="client_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="client_edit", methods={"GET","POST"}, requirements={"id":"\d+"})
      */
-    public function edit(ClientManager $clientManager, Request $request, Client $client): Response
-    {
+    public function edit(ClientManager $clientManager, Request $request, int $id): Response
+    { 
+        $client = $clientManager->find($id);
+
+        if (!$client) {
+            return $this->redirectToRoute('client_index', [], Response::HTTP_SEE_OTHER);
+        }
+
         $form = $this->createForm(ClientType::class, $client);
         $form->handleRequest($request);
 
@@ -81,8 +91,14 @@ class ClientController extends AbstractController
     /**
      * @Route("/{id}/delete", name="client_delete", methods={"POST"})
      */
-    public function delete(ClientManager $clientManager, Request $request, Client $client): Response
+    public function delete(ClientManager $clientManager, Request $request, int $id): Response
     {
+        $client = $clientManager->find($id);
+
+        if (!$client) {
+            return $this->redirectToRoute('client_index', [], Response::HTTP_SEE_OTHER);
+        }
+
         if ($this->isCsrfTokenValid('delete'.$client->getId(), $request->request->get('_token'))) {
             $clientManager->remove($client);
         }
