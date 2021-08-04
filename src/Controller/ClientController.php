@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Form\ClientType;
+use App\Service\ClientFormProcessor;
 use App\Service\ClientManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,18 +27,15 @@ class ClientController extends AbstractController
     /**
      * @Route("/new", name="client_new", methods={"GET","POST"})
      */
-    public function new(ClientManager $clientManager, Request $request): Response
+    public function new(ClientManager $clientManager, Request $request, ClientFormProcessor $clientFormProcessor): Response
     {
         $client = $clientManager->create();
-        $form = $this->createForm(ClientType::class, $client);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        [$createdClient , $form] = ($clientFormProcessor)($client, $request);
 
-            $client = $clientManager->save($client); 
-
-            return $this->redirectToRoute('client_index', [], Response::HTTP_SEE_OTHER);
-        } 
+        if ($createdClient) {
+            return $this->redirectToRoute('client_index', [], Response::HTTP_CREATED);
+        }
 
         return $this->renderForm('client/new.html.twig', [
             'client' => $client,
@@ -54,7 +51,7 @@ class ClientController extends AbstractController
         $client = $clientManager->find($id);
 
         if (!$client) {
-            return $this->redirectToRoute('client_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('client_index', [], Response::HTTP_FOUND);
         }
 
         return $this->render('client/show.html.twig', [
@@ -65,21 +62,18 @@ class ClientController extends AbstractController
     /**
      * @Route("/{id}/edit", name="client_edit", methods={"GET","POST"}, requirements={"id":"\d+"})
      */
-    public function edit(ClientManager $clientManager, Request $request, int $id): Response
+    public function edit(ClientManager $clientManager, Request $request, ClientFormProcessor $clientFormProcessor, int $id): Response
     { 
         $client = $clientManager->find($id);
 
         if (!$client) {
-            return $this->redirectToRoute('client_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('client_index', [], Response::HTTP_FOUND);
         }
 
-        $form = $this->createForm(ClientType::class, $client);
-        $form->handleRequest($request);
+        [$editedClient , $form] = ($clientFormProcessor)($client, $request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $client = $clientManager->save($client);
-
-            return $this->redirectToRoute('client_index', [], Response::HTTP_SEE_OTHER);
+        if ($editedClient) {
+            return $this->redirectToRoute('client_index', [], Response::HTTP_TEMPORARY_REDIRECT);
         }
 
         return $this->renderForm('client/edit.html.twig', [
@@ -96,7 +90,7 @@ class ClientController extends AbstractController
         $client = $clientManager->find($id);
 
         if (!$client) {
-            return $this->redirectToRoute('client_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('client_index', [], Response::HTTP_FOUND);
         }
 
         if ($this->isCsrfTokenValid('delete'.$client->getId(), $request->request->get('_token'))) {

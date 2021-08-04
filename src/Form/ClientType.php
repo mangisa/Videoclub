@@ -27,42 +27,44 @@ class ClientType extends AbstractType
                 'empty_data' => '',
                 'help' => 'Make sure to add a valid surname',
             ])
-            // ->add('birthdate', DateType::class, [
-            //     'label' => 'Birth date:',
-            //     'widget' => 'single_text',
-            //     'attr' => [
-            //         'class' => 'js-datepicker'
-            //     ],
-            // ])
-            // ->add('nie', TextType::class, [
-            //     'label'  => 'NIE:',
-            //     'required' => false,
-            //     'help' => 'Make sure to add a valid nie',
-            // ])
-            // ->add('address', TextType::class, [
-            //     'label'  => 'Address:',
-            //     'required' => false,
-            // ])
-            // ->add('postalcode', IntegerType::class, [
-            //     'label'  => 'Postal code:',
-            //     'required' => false,
-            // ])
-            // ->add('town', TextType::class, [
-            //     'label'  => 'Town:',
-            //     'required' => false,
-            // ])
-            // ->add('city', TextType::class, [
-            //     'label'  => 'City:',
-            //     'required' => false,
-            // ])
-            // ->add('province', TextType::class, [
-            //     'label'  => 'Province:',
-            //     'required' => false,
-            // ])
-            // ->add('country', TextType::class, [
-            //     'label'  => 'Country:',
-            //     'required' => false,
-            // ])
+            ->add('birthdate', DateType::class, [
+                'label' => 'Birth date:',
+                'widget' => 'single_text',
+                'required' => true,
+                'empty_data' => null,
+                'attr' => [
+                    'class' => 'js-datepicker'
+                ],
+            ])
+            ->add('nie', TextType::class, [
+                'label'  => 'NIE:',
+                'required' => false,
+                'help' => 'Make sure to add a valid nie',
+            ])
+            ->add('address', TextType::class, [
+                'label'  => 'Address:',
+                'required' => false,
+            ])
+            ->add('postalcode', IntegerType::class, [
+                'label'  => 'Postal code:',
+                'required' => false,
+            ])
+            ->add('town', TextType::class, [
+                'label'  => 'Town:',
+                'required' => false,
+            ])
+            ->add('city', TextType::class, [
+                'label'  => 'City:',
+                'required' => false,
+            ])
+            ->add('province', TextType::class, [
+                'label'  => 'Province:',
+                'required' => false,
+            ])
+            ->add('country', TextType::class, [
+                'label'  => 'Country:',
+                'required' => false,
+            ])
         ;
     }
 

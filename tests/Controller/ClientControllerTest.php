@@ -32,14 +32,9 @@ class ClientControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
-    public function datosCliente(): array
-    {
-        return [
-            ['', 'surname'],
-            ['name', '']
-        ];
-    }
-
+    /**
+     * @group failing
+     */
     public function testCreateOK()
     {
         self::ensureKernelShutdown();
@@ -53,17 +48,27 @@ class ClientControllerTest extends WebTestCase
 
         $form['client[name]'] = 'name';
         $form['client[surname]'] = 'surname';
+        $form['client[birthdate]'] = '2000-12-31';
 
         $client->submit($form);
         
         $this->assertTrue($client->getResponse()->isRedirect('/client/'));
     }
 
+    public function datosCliente(): array
+    {
+        return [
+            ['', 'surname', '1999-11-25'],
+            ['name', '', '1999-11-25'],
+            ['name', 'surname', '']
+        ];
+    }
+
     /**
      * @dataProvider datosCliente
      * @group failing
      */
-    public function testCreateKO($name, $surname)
+    public function testCreateKO($name, $surname, $birthdate)
     {
         self::ensureKernelShutdown();
         $client = static::createClient();
@@ -76,6 +81,7 @@ class ClientControllerTest extends WebTestCase
 
         $form['client[name]'] = $name;
         $form['client[surname]'] = $surname;
+        $form['client[birthdate]'] = $birthdate; 
 
         $client->submit($form);  
 
@@ -122,6 +128,9 @@ class ClientControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
+    /**
+     * @group failing
+     */
     public function testEditIncorrectId()
     {
         self::ensureKernelShutdown();
@@ -150,6 +159,7 @@ class ClientControllerTest extends WebTestCase
 
         $form['client[name]'] = 'Edit';
         $form['client[surname]'] = 'Update by Test';
+        $form['client[birthdate]'] = '1990-07-25';
 
         $client->submit($form);
 
@@ -159,7 +169,7 @@ class ClientControllerTest extends WebTestCase
     /**
      * @dataProvider datosCliente
      */
-    public function testUpdateKO($name, $surname)
+    public function testUpdateKO($name, $surname, $birthdate)
     {
         self::ensureKernelShutdown();
         $client = static::createClient();
@@ -177,6 +187,7 @@ class ClientControllerTest extends WebTestCase
 
         $form['client[name]'] = $name;
         $form['client[surname]'] = $surname;
+        $form['client[birthdate]'] = $birthdate;
 
         $client->submit($form);  
 
@@ -193,9 +204,6 @@ class ClientControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
-    /**
-     * @group failing
-     */
     public function testDelete()
     {
         self::ensureKernelShutdown();

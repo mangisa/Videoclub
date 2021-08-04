@@ -33,6 +33,7 @@ class Client
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Assert\NotBlank
      */
     private $birthdate;
 
