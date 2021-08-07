@@ -24,6 +24,11 @@ class MovieManager
         return $this->movieRepository->find($id);
     }
 
+    public function findAll(): array
+    {
+        return $this->movieRepository->findAll();
+    }
+
     public function persist(Movie $movie): Movie
     {
         $this->entityManager->persist($movie);

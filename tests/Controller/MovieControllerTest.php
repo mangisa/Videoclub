@@ -2,10 +2,10 @@
 
 namespace App\Test\Controller;
 
-use App\Entity\Client;
+use App\Entity\Movie;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class ClientControllerTest extends WebTestCase
+class MovieControllerTest extends WebTestCase
 {
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -34,7 +34,7 @@ class ClientControllerTest extends WebTestCase
         self::ensureKernelShutdown();
         $client = static::createClient();
 
-        $client->request('GET', 'client/new');
+        $client->request('GET', 'movie/new');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
@@ -44,38 +44,36 @@ class ClientControllerTest extends WebTestCase
         self::ensureKernelShutdown();
         $client = static::createClient();
 
-        $crawler = $client->request('GET', 'client/new');
+        $crawler = $client->request('GET', 'movie/new');
 
-        $buttonCrawlerNode = $crawler->selectButton('submit');
+        $buttonCrawlerNode = $crawler->selectButton('submit_button');
 
         $form = $buttonCrawlerNode->form();
 
-        $form['client[name]'] = 'name';
-        $form['client[surname]'] = 'surname';
-        $form['client[birthdate]'] = '2000-12-31';
+        $form['movie[title]'] = 'Underworld';
+        $form['movie[price]'] = 1.99;
 
         $client->submit($form);
         
-        $this->assertTrue($client->getResponse()->isRedirect('/client/'));
+        $this->assertTrue($client->getResponse()->isRedirect('/movie/'));
     }
 
     /**
-     * @dataProvider clientsData
+     * @dataProvider MoviesData
      */
-    public function testCreateIncorrectFormFields($name, $surname, $birthdate)
+    public function testCreateIncorrectFormFields($title, $price)
     {
         self::ensureKernelShutdown();
         $client = static::createClient();
 
-        $crawler = $client->request('GET', 'client/new');
+        $crawler = $client->request('GET', 'movie/new');
 
-        $buttonCrawlerNode = $crawler->selectButton('submit');
+        $buttonCrawlerNode = $crawler->selectButton('submit_button');
 
         $form = $buttonCrawlerNode->form();
 
-        $form['client[name]'] = $name;
-        $form['client[surname]'] = $surname;
-        $form['client[birthdate]'] = $birthdate;
+        $form['movie[title]'] = $title;
+        $form['movie[price]'] = $price;
 
         $client->submit($form);  
 
@@ -88,11 +86,11 @@ class ClientControllerTest extends WebTestCase
         $client = static::createClient();
 
         $entity = $this->entityManager
-            ->getRepository(Client::class)
+            ->getRepository(Movie::class)
             ->findOneBy([], ['id' => 'DESC'])
         ;
 
-        $client->request('GET', 'client/' . $entity->getId());
+        $client->request('GET', 'movie/' . $entity->getId());
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
@@ -102,9 +100,9 @@ class ClientControllerTest extends WebTestCase
         self::ensureKernelShutdown();
         $client = static::createClient();
 
-        $client->request('GET', 'client/0');
+        $client->request('GET', 'movie/0');
 
-        $this->assertTrue($client->getResponse()->isRedirect('/client/'));
+        $this->assertTrue($client->getResponse()->isRedirect('/movie/'));
     }
 
     public function testEditCorrectIdParameter()
@@ -113,11 +111,11 @@ class ClientControllerTest extends WebTestCase
         $client = static::createClient();
 
         $entity = $this->entityManager
-            ->getRepository(Client::class)
+            ->getRepository(Movie::class)
             ->findOneBy([], ['id' => 'DESC'])
         ;
 
-        $client->request('GET', 'client/' . $entity->getId() . '/edit');
+        $client->request('GET', 'movie/' . $entity->getId() . '/edit');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
@@ -127,9 +125,9 @@ class ClientControllerTest extends WebTestCase
         self::ensureKernelShutdown();
         $client = static::createClient();
 
-        $client->request('GET', 'client/0/edit');
+        $client->request('GET', 'movie/0/edit');
 
-        $this->assertTrue($client->getResponse()->isRedirect('/client/'));
+        $this->assertTrue($client->getResponse()->isRedirect('/movie/'));
     }
 
     public function testUpdateCorrectFormFields()
@@ -138,47 +136,45 @@ class ClientControllerTest extends WebTestCase
         $client = static::createClient();
 
         $entity = $this->entityManager
-            ->getRepository(Client::class)
+            ->getRepository(Movie::class)
             ->findOneBy([], ['id' => 'DESC'])
         ;
 
-        $crawler = $client->request('GET', 'client/' . $entity->getId() . '/edit');    
+        $crawler = $client->request('GET', 'movie/' . $entity->getId() . '/edit');    
 
-        $buttonCrawlerNode = $crawler->selectButton('submit');
+        $buttonCrawlerNode = $crawler->selectButton('submit_button');
 
         $form = $buttonCrawlerNode->form();
 
-        $form['client[name]'] = 'Edit';
-        $form['client[surname]'] = 'Update by Test';
-        $form['client[birthdate]'] = '1990-07-25';
+        $form['movie[title]'] = 'Pacific rim 2';
+        $form['movie[price]'] = 0.95;
 
         $client->submit($form);
 
-        $this->assertTrue($client->getResponse()->isRedirect('/client/'));
+        $this->assertTrue($client->getResponse()->isRedirect('/movie/'));
     }
 
     /**
-     * @dataProvider clientsData
+     * @dataProvider MoviesData
      */
-    public function testUpdateIncorrectFormFields($name, $surname, $birthdate)
+    public function testUpdateIncorrectFormFields($title, $price)
     {
         self::ensureKernelShutdown();
         $client = static::createClient();
 
         $entity = $this->entityManager
-            ->getRepository(Client::class)
+            ->getRepository(Movie::class)
             ->findOneBy([], ['id' => 'DESC'])
         ;
 
-        $crawler = $client->request('GET', 'client/' . $entity->getId() . '/edit');
+        $crawler = $client->request('GET', 'movie/' . $entity->getId() . '/edit');
 
-        $buttonCrawlerNode = $crawler->selectButton('submit');
+        $buttonCrawlerNode = $crawler->selectButton('submit_button');
 
         $form = $buttonCrawlerNode->form();
 
-        $form['client[name]'] = $name;
-        $form['client[surname]'] = $surname;
-        $form['client[birthdate]'] = $birthdate;
+        $form['movie[title]'] = $title;
+        $form['movie[price]'] = $price;
 
         $client->submit($form);  
 
@@ -190,7 +186,7 @@ class ClientControllerTest extends WebTestCase
         self::ensureKernelShutdown();
         $client = static::createClient();
 
-        $client->request('GET', 'client/');
+        $client->request('GET', 'movie/');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
@@ -201,27 +197,26 @@ class ClientControllerTest extends WebTestCase
         $client = static::createClient();
 
         $entity = $this->entityManager
-            ->getRepository(Client::class)
+            ->getRepository(Movie::class)
             ->findOneBy([], ['id' => 'DESC'])
         ;
 
-        $crawler = $client->request('GET', 'client/' . $entity->getId());
+        $crawler = $client->request('GET', 'movie/' . $entity->getId());
 
-        $buttonCrawlerNode = $crawler->selectButton('delete');
+        $buttonCrawlerNode = $crawler->selectButton('delete_button');
 
         $form = $buttonCrawlerNode->form();
 
         $client->submit($form);
 
-        $this->assertTrue($client->getResponse()->isRedirect('/client/'));
+        $this->assertTrue($client->getResponse()->isRedirect('/movie/'));
     }
 
-    public function clientsData(): array
+    public function MoviesData(): array
     {
         return [
-            ['', 'surname', '1999-11-25'], // Null mame
-            ['name', '', '1999-11-25'], // Null surname
-            ['name', 'surname', ''], // Null birdthDate
+            ['', 1.99], // Null title
+            ['Pacific rim', ''], // Null price
         ];
     }
 }

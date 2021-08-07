@@ -20,6 +20,8 @@ class MovieType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
+                'required' => true,
+                'empty_data' => '',
                 'constraints' => [
                     new NotNull([
                         'message' => 'Title can not be blank',
@@ -30,12 +32,16 @@ class MovieType extends AbstractType
                 ],
             ])
             ->add('director', TextType::class, [
+                'required' => false,
                 'help' => 'Make sure to add a valid director',
             ])
             ->add('cover', TextType::class, [
+                'required' => false,
                 'help' => 'Make sure to add a valid cover',
             ])
             ->add('price', NumberType::class, [
+                'required' => true,
+                'empty_data' => 0,
                 'constraints' => [
                     new NotNull([
                         'message' => 'The price must be greater than 0',
@@ -46,9 +52,11 @@ class MovieType extends AbstractType
                 ],
             ])
             ->add('releaseDate', DateTimeType::class, [
+                'required' => false,
                 'widget' => 'single_text',
             ])
             ->add('duration', IntegerType::class, [
+                'required' => false,
                 'help' => 'Make sure to add a valid duration',
             ])
         ;
