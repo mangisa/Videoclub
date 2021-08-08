@@ -1,0 +1,36 @@
+Prarametros para la bbdd
+    Cambia 'db_user' por tu nombre de usaurio en mysql
+    Cambia 'db_password' por tu passwor de mysql
+    Cambia 'db_name' por el nombre que le quieras poner a la bbdd 
+    Cambia 'server_version' por tu version del servidor MariaDB
+
+Crear la bbdd:
+    php bin/console doctrine:database:create
+    // Para test
+    APP_ENV=test bin/console doctrine:database:create
+
+creaar las tablas de bbdd:
+    php bin/console doctrine:migrations:migrate
+    // Para test
+    APP_ENV=test bin/console doctrine:migrations:migrate
+    // o
+    APP_ENV=test bin/console schema:update -force
+
+Abrir servidor:
+    symfony server:start -d
+
+Cerrar servidor
+    symfony server:stop
+
+Abrir proyecto local por defecto estará en http://127.0.0.1:8000/ aunque puede asignarle otro puerto si tienes otros proyectos en funcionamiento
+    symfony open:local
+
+Arrancar BBDD TEST
+    php symfony server:stop
+    APP_ENV=test symfony server:start -d
+
+Ejecutar los test
+    APP_ENV=test bin/phpunit
+
+Generar las fixtures en BBDD
+    php bin/console doctrine:fixtures:load
