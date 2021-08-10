@@ -1,4 +1,67 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn" type="submit" name="submit" id="submit_button">{{ button_label|default('Save') }}</button>
+    
+    <div class="row">
+        <div class="col mb-3">
+            {{ form_label(form.name, '', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger"> {{ form_errors(form.name) }} </div>
+        </div>
+        <div class="col mb-3">
+            {{ form_label(form.surname, '', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.surname, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger"> {{ form_errors(form.surname) }} </div>
+        </div>
+        <div class="col mb-3">
+            {{ form_label(form.nie, '', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.nie, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger"> {{ form_errors(form.nie) }} </div>
+        </div>
+        <div class="col mb-3">
+            {{ form_label(form.birthdate, '', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.birthdate, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger"> {{ form_errors(form.birthdate) }} </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col mb-3">
+            {{ form_label(form.town, '', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.town, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger"> {{ form_errors(form.town) }} </div>
+        </div>
+        <div class="col mb-3">
+            {{ form_label(form.city, '', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.city, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger"> {{ form_errors(form.city) }} </div>
+        </div>
+        <div class="col mb-3">
+            {{ form_label(form.province, '', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.province, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger"> {{ form_errors(form.surname) }} </div>
+        </div>
+        <div class="col mb-3">
+            {{ form_label(form.country, '', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.country, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger"> {{ form_errors(form.country) }} </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6 mb-3">
+            {{ form_label(form.address, '', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.address, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger"> {{ form_errors(form.address) }} </div>
+        </div>
+        <div class="col mb-3">
+            {{ form_label(form.postalcode, '', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.postalcode, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger"> {{ form_errors(form.postalcode) }} </div>
+        </div>
+        <div class="col mb-3">
+            <div class="d-grid" style="padding-top: 32px;">
+                <button class="btn btn-primary" type="submit" name="submit" id="submit_button">{{ button_label|default('Save') }}</button>
+            </div>
+        </div>
+    </div>
+    
 {{ form_end(form) }}

@@ -32,7 +32,7 @@ class MovieFixtures extends Fixture
     {
         $data = array(
             array(
-                'title' => 'Jurasick Park',
+                'title' => 'Jurassick Park',
                 'price' => 1.95,
                 'duration' => 127,
                 'director' => 'Steven Spielberg',

@@ -1,4 +1,47 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn" name="submit_button" id="submit_button">{{ button_label|default('Save') }}</button>
+
+    <div class="row">
+        <div class="col mb-3">
+            {{ form_label(form.title, '', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger"> {{ form_errors(form.title) }} </div>
+        </div>
+        <div class="col mb-3">
+            {{ form_label(form.director, '', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.director, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger"> {{ form_errors(form.director) }} </div>
+        </div>
+        <div class="col mb-3">
+            {{ form_label(form.cover, '', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.cover, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger"> {{ form_errors(form.cover) }} </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col mb-3">
+            {{ form_label(form.price, '', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.price, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger"> {{ form_errors(form.price) }} </div>
+        </div>
+        <div class="col mb-3">
+            {{ form_label(form.releaseDate, '', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.releaseDate, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger"> {{ form_errors(form.releaseDate) }} </div>
+        </div>
+        <div class="col mb-3">
+            {{ form_label(form.duration, '', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.duration, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger"> {{ form_errors(form.duration) }} </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-md-center">
+        <div class="col-4 mb-3">
+            <div class="d-grid" style="padding-top: 32px;">
+                <button class="btn btn-primary" name="submit_button" id="submit_button">{{ button_label|default('Save') }}</button>
+            </div>
+        </div>
+    </div>
+
 {{ form_end(form) }}

@@ -33,11 +33,9 @@ class MovieType extends AbstractType
             ])
             ->add('director', TextType::class, [
                 'required' => false,
-                'help' => 'Make sure to add a valid director',
             ])
             ->add('cover', TextType::class, [
                 'required' => false,
-                'help' => 'Make sure to add a valid cover',
             ])
             ->add('price', NumberType::class, [
                 'required' => true,
@@ -57,7 +55,6 @@ class MovieType extends AbstractType
             ])
             ->add('duration', IntegerType::class, [
                 'required' => false,
-                'help' => 'Make sure to add a valid duration',
             ])
         ;
     }

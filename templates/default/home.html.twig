@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DefaultController!{% endblock %}
+
+{% block body %}
+
+<style>
+    img{
+        max-width: 100%;
+        max-height: 300px;
+    }
+</style>
+
+<div class="container">
+    <h1 class="text-center"> Estas en home </h1>
+
+    <section class="gallery min-vh-100">
+
+        <div class="container-lg">
+            <div class="row gy-4 row-cols-2 row-cols-sm-3 row-cols-md-4">
+
+                {% for movie in movies %}
+                    <div class="col">
+                        <img src="{% if movie.cover %} {{ asset(movie.cover) }} {% else %} {{ asset('images/image-not-available.png') }} {% endif %}" class="gallery-item" alt="gallery"></img>
+                    </div>
+                {% endfor %}
+        
+            </div>
+        </div>
+        
+    </section>
+</div>
+
+{% endblock %}

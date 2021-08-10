@@ -19,13 +19,11 @@ class ClientType extends AbstractType
                 'label' => 'Name:',
                 'required' => true,
                 'empty_data' => '',
-                'help' => 'Make sure to add a valid name',
             ])
             ->add('surname', TextType::class, [
                 'label' => 'Surname:',
                 'required' => true,
                 'empty_data' => '',
-                'help' => 'Make sure to add a valid surname',
             ])
             ->add('birthdate', DateType::class, [
                 'label' => 'Birth date:',
@@ -39,7 +37,6 @@ class ClientType extends AbstractType
             ->add('nie', TextType::class, [
                 'label'  => 'NIE:',
                 'required' => false,
-                'help' => 'Make sure to add a valid nie',
             ])
             ->add('address', TextType::class, [
                 'label'  => 'Address:',
